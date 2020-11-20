@@ -20,31 +20,27 @@ var cards_schema = new mongoose.Schema({
 var contact_schema = new mongoose.Schema({
   FirstName: { type: String },
   LastName: { type: String },
-  DOB: { type: Date },
+  DOB: { type: String },
   address: { type: String },
   tel: { type: String },
   email: { type: String },
-  social: {
-    facebook: {
-      img: String,
-      data: String,
-    },
-    twitter: {
-      img: String,
-      data: String,
-    },
-    linkedin: {
-      img: String,
-      data: String,
-    },
-    gmail: {
-      img: String,
-      data: String,
-    },
-    instagram: {
-      img: String,
-      data: String,
-    },
+});
+
+var social_schema = new mongoose.Schema({
+  facebook: {
+    data: String,
+  },
+  twitter: {
+    data: String,
+  },
+  linkedin: {
+    data: String,
+  },
+  gmail: {
+    data: String,
+  },
+  github: {
+    data: String,
   },
 });
 var about_schema = new mongoose.Schema({
@@ -61,10 +57,12 @@ const users = mongoose.model("users", users_schema);
 const cards = mongoose.model("cards", cards_schema);
 const contact = mongoose.model("contacts", contact_schema);
 const about = mongoose.model("about", about_schema);
+const social = mongoose.model("social", social_schema);
 
 module.exports = {
   users: users,
   cards: cards,
   contact: contact,
   about: about,
+  social: social,
 };
