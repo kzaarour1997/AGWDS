@@ -4,6 +4,10 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
+import Routes from "./dashboard/routes";
+
+//const App = () => <Routes />;
+
 ReactDOM.render(
   <React.StrictMode>
     <App />

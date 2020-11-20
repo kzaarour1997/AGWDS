@@ -1,6 +1,8 @@
 const connect = require("../connect.js");
 const Schema = require("../Schema/Schema.js");
 const test_function = require("./function/test_input_function");
+const bcrypt = require("bcrypt");
+
 exports.New_Admin_Controller = async function (req, res) {
   function test_input(data) {
     data = data.trim();
@@ -11,10 +13,12 @@ exports.New_Admin_Controller = async function (req, res) {
 
   try {
     //console.log(test_input("hh<htm   l>  ////0 &  "));
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
     var newAdmin = {
       _id: test_input(req.body.email),
       email: test_input(req.body.email),
-      password: test_input(req.body.password),
+      password: test_input(hashedPassword),
     };
     //const admin = new Admin(newAdmin);
     const admin = new Schema.users(newAdmin);
