@@ -10,6 +10,8 @@ import { Form } from "../../../components/Form";
 
 // This styled only show buttons in row format
 import styled from "styled-components";
+import Column from "antd/lib/table/Column";
+import { Row } from "antd";
 const Buttons = styled.div`
   display: flex;
 
@@ -31,6 +33,7 @@ class CardsPage extends React.Component {
       Password: "",
       Updated: false,
       disab: true,
+      click: false,
       text: "Password and Verify password must be the same",
     };
   }
@@ -66,6 +69,8 @@ class CardsPage extends React.Component {
   };
 
   handleSubmit = (event) => {
+    this.setState({ click: true });
+    event.preventDefault();
     try {
       fetch("http://localhost:3001/NewAdmin", {
         method: "post",
@@ -74,11 +79,16 @@ class CardsPage extends React.Component {
           _id: this.state.Email,
           email: this.state.Email,
           password: this.state.Password,
+          verifypassword: this.state.VerifyPass,
         }),
       })
-        .then((res) => res.json())
+        .then((res) => {
+          console.log(1);
+          return res.json();
+        })
         .then((json) => {
           if (json.status == 401) alert(json.message);
+          else this.setState({ Updated: true });
         })
         .catch((err) => console.log(err));
       event.preventDefault();
@@ -135,13 +145,23 @@ class CardsPage extends React.Component {
                   </p>
                 </div>
               </div>
-              <div className="card-actions flex-end">
-                <Button
-                  className="success btn-circle"
-                  disabled={this.state.disab}
-                >
-                  Submit
-                </Button>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "flex-end",
+                }}
+                className="card-actions flex-end"
+              >
+                {this.state.disab && this.state.click ? (
+                  <p style={{ textAlign: "center", color: "red" }}>
+                    Pass and Verify Pass must be the same
+                  </p>
+                ) : (
+                  ""
+                )}
+
+                <Button className="success btn-circle">Submit</Button>
               </div>
             </Card>
           </Form>
